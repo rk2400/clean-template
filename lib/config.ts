@@ -62,7 +62,6 @@ export const emailConfig = {
   user: getEnvVar('EMAIL_USER', ''),
   pass: getEnvVar('EMAIL_PASS', ''),
   from: getEnvVar('EMAIL_FROM', 'noreply@littleflame.com'),
-  secure: getEnvVarAsBoolean('EMAIL_SECURE', false),
   // Check if email is configured (all required fields present)
   isConfigured: (): boolean => {
     return !!(

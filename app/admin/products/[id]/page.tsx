@@ -14,16 +14,10 @@ export default function EditProductPage() {
     name: '',
     description: '',
     price: '',
-    discountPrice: '',
-    images: [] as string[],
+    images: '',
     status: 'active' as 'active' | 'inactive',
     stock: '0',
     category: 'other' as 'floral' | 'fresh' | 'seasonal' | 'woody' | 'other',
-    scentTop: '',
-    scentMiddle: '',
-    scentBase: '',
-    vesselDetails: '',
-    careInstructions: '',
   });
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
@@ -36,16 +30,10 @@ export default function EditProductPage() {
           name: product.name,
           description: product.description,
           price: product.price.toString(),
-          discountPrice: typeof product.discountPrice === 'number' ? product.discountPrice.toString() : '',
-          images: Array.isArray(product.images) ? product.images : [],
+          images: product.images.join(', '),
           status: product.status,
           stock: (product.stock || 0).toString(),
           category: product.category,
-          scentTop: Array.isArray(product.scentNotes?.top) ? product.scentNotes.top.join('\n') : '',
-          scentMiddle: Array.isArray(product.scentNotes?.middle) ? product.scentNotes.middle.join('\n') : '',
-          scentBase: Array.isArray(product.scentNotes?.base) ? product.scentNotes.base.join('\n') : '',
-          vesselDetails: product.vesselDetails || '',
-          careInstructions: Array.isArray(product.careInstructions) ? product.careInstructions.join('\n') : '',
         });
       } catch (error: any) {
         toast.error(error.message);
@@ -60,31 +48,12 @@ export default function EditProductPage() {
     e.preventDefault();
     setSaving(true);
     try {
-      const images = (formData.images || []).map((url) => url.trim()).filter(Boolean);
-      if (images.length === 0) {
-        throw new Error('Please add at least one valid image URL');
-      }
+      const images = formData.images.split(',').map((url) => url.trim()).filter(Boolean);
       await updateProduct(params.id as string, {
         ...formData,
         price: parseFloat(formData.price),
-        discountPrice: formData.discountPrice ? parseFloat(formData.discountPrice) : undefined,
         stock: parseInt(formData.stock),
         images,
-        scentNotes: {
-          top: formData.scentTop
-            ? formData.scentTop.split('\n').map((s) => s.trim()).filter(Boolean)
-            : [],
-          middle: formData.scentMiddle
-            ? formData.scentMiddle.split('\n').map((s) => s.trim()).filter(Boolean)
-            : [],
-          base: formData.scentBase
-            ? formData.scentBase.split('\n').map((s) => s.trim()).filter(Boolean)
-            : [],
-        },
-        vesselDetails: formData.vesselDetails,
-        careInstructions: formData.careInstructions
-          ? formData.careInstructions.split('\n').map((s) => s.trim()).filter(Boolean)
-          : [],
       });
       toast.success('Product updated!');
       router.push('/admin/products');
@@ -121,66 +90,6 @@ export default function EditProductPage() {
             />
           </div>
           <div>
-            <label className="block text-sm font-medium mb-2">Scent Notes - Top</label>
-            <textarea
-              value={formData.scentTop}
-              onChange={(e) => setFormData({ ...formData, scentTop: e.target.value })}
-              className="input"
-              rows={3}
-            />
-            <p className="text-xs text-stone-500 mt-1">One note per line</p>
-          </div>
-          <div>
-            <label className="block text-sm font-medium mb-2">Scent Notes - Middle</label>
-            <textarea
-              value={formData.scentMiddle}
-              onChange={(e) => setFormData({ ...formData, scentMiddle: e.target.value })}
-              className="input"
-              rows={3}
-            />
-            <p className="text-xs text-stone-500 mt-1">One note per line</p>
-          </div>
-          <div>
-            <label className="block text-sm font-medium mb-2">Scent Notes - Base</label>
-            <textarea
-              value={formData.scentBase}
-              onChange={(e) => setFormData({ ...formData, scentBase: e.target.value })}
-              className="input"
-              rows={3}
-            />
-            <p className="text-xs text-stone-500 mt-1">One note per line</p>
-          </div>
-          <div>
-            <label className="block text-sm font-medium mb-2">Vessel & Dimensions</label>
-            <textarea
-              value={formData.vesselDetails}
-              onChange={(e) => setFormData({ ...formData, vesselDetails: e.target.value })}
-              className="input"
-              rows={3}
-            />
-          </div>
-          <div>
-            <label className="block text-sm font-medium mb-2">Care Instructions</label>
-            <textarea
-              value={formData.careInstructions}
-              onChange={(e) => setFormData({ ...formData, careInstructions: e.target.value })}
-              className="input"
-              rows={4}
-            />
-            <p className="text-xs text-stone-500 mt-1">One instruction per line</p>
-          </div>
-          <div>
-            <label className="block text-sm font-medium mb-2">Discount Price (₹)</label>
-            <input
-              type="number"
-              step="0.01"
-              value={formData.discountPrice}
-              onChange={(e) => setFormData({ ...formData, discountPrice: e.target.value })}
-              className="input"
-              placeholder="Optional"
-            />
-          </div>
-          <div>
             <label className="block text-sm font-medium mb-2">Description</label>
             <textarea
               value={formData.description}
@@ -213,46 +122,16 @@ export default function EditProductPage() {
             />
           </div>
           <div>
-            <label className="block text-sm font-medium mb-2">Image URLs</label>
-            <div className="space-y-3">
-              {(formData.images.length ? formData.images : ['']).map((img, idx) => (
-                <div key={idx} className="flex gap-2">
-                  <input
-                    type="text"
-                    value={img}
-                    onChange={(e) => {
-                      const next = [...(formData.images.length ? formData.images : [''])];
-                      next[idx] = e.target.value;
-                      setFormData({ ...formData, images: next });
-                    }}
-                    className="input flex-1"
-                    placeholder="https://example.com/image.jpg"
-                    required={idx === 0}
-                  />
-                  <button
-                    type="button"
-                    className="btn btn-secondary"
-                    onClick={() => {
-                      const next = [...(formData.images.length ? formData.images : [''])];
-                      if (next.length > 1) {
-                        next.splice(idx, 1);
-                        setFormData({ ...formData, images: next });
-                      }
-                    }}
-                    disabled={(formData.images.length ? formData.images : ['']).length <= 1}
-                  >
-                    Remove
-                  </button>
-                </div>
-              ))}
-              <button
-                type="button"
-                className="btn btn-secondary"
-                onClick={() => setFormData({ ...formData, images: [...(formData.images || []), ''] })}
-              >
-                Add Image
-              </button>
-            </div>
+            <label className="block text-sm font-medium mb-2">
+              Image URLs (comma-separated)
+            </label>
+            <input
+              type="text"
+              value={formData.images}
+              onChange={(e) => setFormData({ ...formData, images: e.target.value })}
+              className="input"
+              required
+            />
           </div>
           <div>
             <label className="block text-sm font-medium mb-2">Category</label>
@@ -292,3 +171,4 @@ export default function EditProductPage() {
     </div>
   );
 }
+

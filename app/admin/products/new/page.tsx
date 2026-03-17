@@ -13,16 +13,10 @@ export default function NewProductPage() {
     name: '',
     description: '',
     price: '',
-    discountPrice: '',
-    images: [] as string[],
+    images: '',
     status: 'active' as 'active' | 'inactive',
     stock: '0',
     category: 'other' as 'floral' | 'fresh' | 'seasonal' | 'woody' | 'other',
-    scentTop: 'Bergamot\nLemon Peel',
-    scentMiddle: 'Ylang Ylang\nJasmine',
-    scentBase: 'Sandalwood\nAmber',
-    vesselDetails: 'Housed in a reusable matte ceramic vessel.\nDimensions: 3.5\" H x 3.25\" W\nWeight: 12 oz (340g)',
-    careInstructions: 'Trim wick to 1/4\" before each burn.\nAllow wax to melt to the edges to prevent tunneling.\nDo not burn for more than 4 hours at a time.',
   });
   const [loading, setLoading] = useState(false);
 
@@ -30,31 +24,12 @@ export default function NewProductPage() {
     e.preventDefault();
     setLoading(true);
     try {
-      const images = (formData.images || []).map((url) => url.trim()).filter(Boolean);
-      if (images.length === 0) {
-        throw new Error('Please add at least one valid image URL');
-      }
+      const images = formData.images.split(',').map((url) => url.trim()).filter(Boolean);
       await createProduct({
         ...formData,
         price: parseFloat(formData.price),
-        discountPrice: formData.discountPrice ? parseFloat(formData.discountPrice) : undefined,
         stock: parseInt(formData.stock),
         images,
-        scentNotes: {
-          top: formData.scentTop
-            ? formData.scentTop.split('\n').map((s) => s.trim()).filter(Boolean)
-            : [],
-          middle: formData.scentMiddle
-            ? formData.scentMiddle.split('\n').map((s) => s.trim()).filter(Boolean)
-            : [],
-          base: formData.scentBase
-            ? formData.scentBase.split('\n').map((s) => s.trim()).filter(Boolean)
-            : [],
-        },
-        vesselDetails: formData.vesselDetails,
-        careInstructions: formData.careInstructions
-          ? formData.careInstructions.split('\n').map((s) => s.trim()).filter(Boolean)
-          : [],
       });
       toast.success('Product created!');
       router.push('/admin/products');
@@ -104,17 +79,6 @@ export default function NewProductPage() {
             />
           </div>
           <div>
-            <label className="block text-sm font-medium mb-2">Discount Price (₹)</label>
-            <input
-              type="number"
-              step="0.01"
-              value={formData.discountPrice}
-              onChange={(e) => setFormData({ ...formData, discountPrice: e.target.value })}
-              className="input"
-              placeholder="Optional"
-            />
-          </div>
-          <div>
             <label className="block text-sm font-medium mb-2">Stock Quantity</label>
             <input
               type="number"
@@ -126,95 +90,17 @@ export default function NewProductPage() {
             />
           </div>
           <div>
-            <label className="block text-sm font-medium mb-2">Image URLs</label>
-            <div className="space-y-3">
-              {(formData.images.length ? formData.images : ['']).map((img, idx) => (
-                <div key={idx} className="flex gap-2">
-                  <input
-                    type="text"
-                    value={img}
-                    onChange={(e) => {
-                      const next = [...(formData.images.length ? formData.images : [''])];
-                      next[idx] = e.target.value;
-                      setFormData({ ...formData, images: next });
-                    }}
-                    className="input flex-1"
-                    placeholder="https://example.com/image.jpg"
-                    required={idx === 0}
-                  />
-                  <button
-                    type="button"
-                    className="btn btn-secondary"
-                    onClick={() => {
-                      const next = [...(formData.images.length ? formData.images : [''])];
-                      if (next.length > 1) {
-                        next.splice(idx, 1);
-                        setFormData({ ...formData, images: next });
-                      }
-                    }}
-                    disabled={(formData.images.length ? formData.images : ['']).length <= 1}
-                  >
-                    Remove
-                  </button>
-                </div>
-              ))}
-              <button
-                type="button"
-                className="btn btn-secondary"
-                onClick={() => setFormData({ ...formData, images: [...(formData.images || []), ''] })}
-              >
-                Add Image
-              </button>
-            </div>
-          </div>
-          <div>
-            <label className="block text-sm font-medium mb-2">Scent Notes - Top</label>
-            <textarea
-              value={formData.scentTop}
-              onChange={(e) => setFormData({ ...formData, scentTop: e.target.value })}
+            <label className="block text-sm font-medium mb-2">
+              Image URLs (comma-separated)
+            </label>
+            <input
+              type="text"
+              value={formData.images}
+              onChange={(e) => setFormData({ ...formData, images: e.target.value })}
               className="input"
-              rows={3}
+              placeholder="https://example.com/image1.jpg, https://example.com/image2.jpg"
+              required
             />
-            <p className="text-xs text-stone-500 mt-1">One note per line</p>
-          </div>
-          <div>
-            <label className="block text-sm font-medium mb-2">Scent Notes - Middle</label>
-            <textarea
-              value={formData.scentMiddle}
-              onChange={(e) => setFormData({ ...formData, scentMiddle: e.target.value })}
-              className="input"
-              rows={3}
-            />
-            <p className="text-xs text-stone-500 mt-1">One note per line</p>
-          </div>
-          <div>
-            <label className="block text-sm font-medium mb-2">Scent Notes - Base</label>
-            <textarea
-              value={formData.scentBase}
-              onChange={(e) => setFormData({ ...formData, scentBase: e.target.value })}
-              className="input"
-              rows={3}
-            />
-            <p className="text-xs text-stone-500 mt-1">One note per line</p>
-          </div>
-          <div>
-            <label className="block text-sm font-medium mb-2">Vessel & Dimensions</label>
-            <textarea
-              value={formData.vesselDetails}
-              onChange={(e) => setFormData({ ...formData, vesselDetails: e.target.value })}
-              className="input"
-              rows={3}
-            />
-          </div>
-          <div>
-            <label className="block text-sm font-medium mb-2">Care Instructions</label>
-            <textarea
-              value={formData.careInstructions}
-              onChange={(e) => setFormData({ ...formData, careInstructions: e.target.value })}
-              className="input"
-              rows={4}
-            />
-            <p className="text-xs text-stone-500 mt-1">One instruction per line</p>
           </div>
           <div>
             <label className="block text-sm font-medium mb-2">Category</label>
@@ -254,3 +140,4 @@ export default function NewProductPage() {
     </div>
   );
 }
+
