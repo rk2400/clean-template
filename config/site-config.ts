@@ -6,9 +6,9 @@
  */
 
 export const siteConfig = {
-  name: 'LittleFlame',
-  shortName: 'LittleFlame',
-  description: 'Beautiful handcrafted candles for your home',
+  name: 'HulaLoop',
+  shortName: 'HulaLoop',
+  description: 'Handmade crochet pieces that bring warmth and whimsy to your home.',
   url: process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000',
 
   // Paths to logo assets (should exist in /public)
@@ -25,7 +25,7 @@ export const siteConfig = {
 
   // Contact info used across the site and in email templates.
   contact: {
-    email: process.env.NEXT_PUBLIC_CONTACT_EMAIL || 'support@littleflame.com',
+    email: process.env.NEXT_PUBLIC_CONTACT_EMAIL || 'support@hulaloop.com',
     phone: process.env.NEXT_PUBLIC_CONTACT_PHONE || '+1 (555) 123-4567',
     address: process.env.NEXT_PUBLIC_CONTACT_ADDRESS || '123 Main St, Anytown, USA',
   },

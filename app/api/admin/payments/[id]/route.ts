@@ -115,7 +115,7 @@ async function handler(req: AuthRequest, { params }: { params: { id: string } })
               // Fallback to ORDER_CREATED template or default body used in payment gateway verification
               const createdTemplate = await EmailTemplate.findOne({ type: 'ORDER_CREATED' });
               let subject =
-                createdTemplate?.subject ?? 'Order Confirmed - LittleFlame';
+                createdTemplate?.subject ?? 'Order Confirmed - HulaLoop';
               let emailBody =
                 createdTemplate?.body ??
                 `

@@ -40,7 +40,7 @@
          <p><strong>Carrier:</strong> {{carrier}}</p>
          <p><strong>Tracking Link:</strong> <a href="{{trackingLink}}">Track your shipment</a></p>
          {{noteBlock}}
-         <p>Thank you for shopping with LittleFlame!</p>
+         <p>Thank you for shopping with HulaLoop!</p>
        `)
          .replace('{{userName}}', user.name || 'Customer')
          .replace('{{orderId}}', String(order._id).toUpperCase())

@@ -63,7 +63,7 @@ export async function POST(req: NextRequest) {
           </div>
           <p>Our team typically responds within 24-48 hours during business days.</p>
           <p style="margin-top: 30px; color: #666; font-size: 12px;">
-            If you have any urgent questions, please call us at +91 9876543210 or email us at littleflame.official@gmail.com
+            If you have any urgent questions, please call us at +91 9876543210 or email us at HulaLoop.official@gmail.com
           </p>
         </div>
         <p style="color: #666; font-size: 12px; text-align: center; margin-top: 20px;">

@@ -48,7 +48,7 @@ export default function TermsPage() {
           <div>
             <h2 className="text-xl font-medium text-stone-900 mb-2">Intellectual Property</h2>
             <p className="text-stone-700">
-              All content, logos, and designs on this website are owned by LittleFlame. Do not copy or distribute without permission.
+              All content, logos, and designs on this website are owned by HulaLoop. Do not copy or distribute without permission.
             </p>
           </div>
 

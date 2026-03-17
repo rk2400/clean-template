@@ -18,7 +18,7 @@ const TEMPLATE_TYPES = [
 
 const DEFAULT_TEMPLATES: Record<string, { subject: string; body: string }> = {
   ORDER_CREATED: {
-    subject: 'Order Confirmed - LittleFlame',
+    subject: 'Order Confirmed - HulaLoop',
     body: `
       <h2>Hello {{userName}}!</h2>
       <p>Your order has been confirmed!</p>
@@ -31,7 +31,7 @@ const DEFAULT_TEMPLATES: Record<string, { subject: string; body: string }> = {
     `,
   },
   ORDER_PACKED: {
-    subject: 'Your Order is Packed - LittleFlame',
+    subject: 'Your Order is Packed - HulaLoop',
     body: `
       <h2>Hello {{userName}}!</h2>
       <p>Great news! Your order has been packed and is ready to ship.</p>
@@ -43,7 +43,7 @@ const DEFAULT_TEMPLATES: Record<string, { subject: string; body: string }> = {
     `,
   },
   ORDER_SHIPPED: {
-    subject: 'Your Order is Shipped - LittleFlame',
+    subject: 'Your Order is Shipped - HulaLoop',
     body: `
       <h2>Hello {{userName}}!</h2>
       <p>Your order is on its way!</p>
@@ -56,7 +56,7 @@ const DEFAULT_TEMPLATES: Record<string, { subject: string; body: string }> = {
     `,
   },
   ORDER_DELIVERED: {
-    subject: 'Order Delivered - LittleFlame',
+    subject: 'Order Delivered - HulaLoop',
     body: `
       <h2>Hello {{userName}}!</h2>
       <p>Your order has been delivered!</p>
@@ -65,11 +65,11 @@ const DEFAULT_TEMPLATES: Record<string, { subject: string; body: string }> = {
       <h3>Order Summary:</h3>
       {{products}}
       <p><strong>Total Amount:</strong> ₹{{totalAmount}}</p>
-      <p>Thank you for shopping with LittleFlame! We hope you love your candles.</p>
+      <p>Thank you for shopping with HulaLoop! We hope you love your candles.</p>
     `,
   },
   ORDER_CANCELLED: {
-    subject: 'Order Cancelled - LittleFlame',
+    subject: 'Order Cancelled - HulaLoop',
     body: `
       <h2>Hello {{userName}}!</h2>
       <p>We're sorry to inform you that your order has been cancelled.</p>
@@ -91,7 +91,7 @@ const DEFAULT_TEMPLATES: Record<string, { subject: string; body: string }> = {
       <p><strong>Carrier:</strong> {{carrier}}</p>
       <p><strong>Tracking Link:</strong> <a href="{{trackingLink}}">Track your shipment</a></p>
       {{noteBlock}}
-      <p>Thank you for shopping with LittleFlame!</p>
+      <p>Thank you for shopping with HulaLoop!</p>
     `,
   },
 };

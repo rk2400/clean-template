@@ -11,7 +11,7 @@ import { generateUPIString, generateQRCodeURL } from '@/lib/upi';
 
 // Access NEXT_PUBLIC_ env vars directly in client component
 const upiId = process.env.NEXT_PUBLIC_UPI_ID || 'merchant@upi';
-const upiPayeeName = process.env.NEXT_PUBLIC_UPI_PAYEE_NAME || 'LittleFlame';
+const upiPayeeName = process.env.NEXT_PUBLIC_UPI_PAYEE_NAME || 'HulaLoop';
 
 function PaymentVerificationContent() {
   const router = useRouter();
