@@ -7,15 +7,29 @@ import { CartProvider } from '@/lib/contexts/CartContext';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import Script from 'next/script';
+import { siteConfig } from '@/config/site-config';
 
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  title: 'LittleFlame - Handcrafted Candles',
-  description: 'Beautiful handcrafted candles for your home',
+  title: `${siteConfig.name} – ${siteConfig.description}`,
+  description: siteConfig.description,
+  metadataBase: new URL(siteConfig.url),
+  openGraph: {
+    title: siteConfig.name,
+    description: siteConfig.description,
+    type: 'website',
+    images: [{ url: siteConfig.logo.icon, alt: `${siteConfig.name} logo` }],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: siteConfig.name,
+    description: siteConfig.description,
+    images: [siteConfig.logo.icon],
+  },
   icons: {
-    icon: '/Logos/color_icon.png',
-    apple: '/Logos/color_icon.png',
+    icon: siteConfig.logo.icon,
+    apple: siteConfig.logo.icon,
   },
 };
 
@@ -33,11 +47,13 @@ export default function RootLayout({
               {children}
               <Footer />
             <Toaster position="top-right" />
-            <Script
-              id="razorpay-checkout-js"
-              src="https://checkout.razorpay.com/v1/checkout.js"
-              strategy="lazyOnload"
-            />
+            {process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID && (
+              <Script
+                id="razorpay-checkout-js"
+                src="https://checkout.razorpay.com/v1/checkout.js"
+                strategy="lazyOnload"
+              />
+            )}
           </CartProvider>
         </UserProvider>
       </body>

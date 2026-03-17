@@ -1,6 +1,14 @@
+import type { Metadata } from 'next';
+import Image from 'next/image';
 import Link from 'next/link';
 import { getProductsFromDb } from '@/lib/products';
 import ProductCard from '@/components/ProductCard';
+import { siteConfig } from '@/config/site-config';
+
+export const metadata: Metadata = {
+  title: `${siteConfig.name} · Home`,
+  description: siteConfig.description,
+};
 
 async function getProducts() {
   const products = await getProductsFromDb({ status: 'active', limit: 3 });
@@ -16,12 +24,14 @@ export default async function HomePage() {
       {/* Hero Banner */}
       <section className="relative bg-stone-900 text-white overflow-hidden">
         <div className="absolute inset-0 z-0">
-            <img 
-              src="https://images.unsplash.com/photo-1602523961358-f9f03dd557db?q=80&w=2000&auto=format&fit=crop" 
-              alt="Cozy candle atmosphere" 
-              className="w-full h-full object-cover opacity-60"
-            />
-            <div className="absolute inset-0 bg-gradient-to-r from-stone-900/80 to-transparent"></div>
+          <Image
+            src="https://images.unsplash.com/photo-1602523961358-f9f03dd557db?q=80&w=2000&auto=format&fit=crop"
+            alt="Cozy candle atmosphere"
+            fill
+            priority
+            className="object-cover opacity-60"
+          />
+          <div className="absolute inset-0 bg-gradient-to-r from-stone-900/80 to-transparent"></div>
         </div>
         
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-32 md:py-48">
@@ -60,10 +70,12 @@ export default async function HomePage() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {/* Collection 1 */}
           <Link href="/products?category=Floral" className="group relative h-96 overflow-hidden rounded-xl cursor-pointer">
-            <img 
-              src="https://images.unsplash.com/photo-1603006905003-be475563bc59?q=80&w=800&auto=format&fit=crop" 
-              alt="Floral Collection" 
-              className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+            <Image
+              src="https://images.unsplash.com/photo-1603006905003-be475563bc59?q=80&w=800&auto=format&fit=crop"
+              alt="Floral Collection"
+              fill
+              sizes="(max-width: 768px) 100vw, 33vw"
+              className="object-cover transition-transform duration-700 group-hover:scale-105"
             />
             <div className="absolute inset-0 bg-black/20 group-hover:bg-black/30 transition-colors"></div>
             <div className="absolute bottom-8 left-8 text-white">
@@ -75,10 +87,12 @@ export default async function HomePage() {
 
           {/* Collection 2 */}
           <Link href="/products?category=Woody" className="group relative h-96 overflow-hidden rounded-xl cursor-pointer">
-            <img 
-              src="https://images.unsplash.com/photo-1577025728734-7ec67bdb97d0?q=80&w=2950&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" 
-              alt="Woody Collection" 
-              className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+            <Image
+              src="https://images.unsplash.com/photo-1577025728734-7ec67bdb97d0?q=80&w=2950&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+              alt="Woody Collection"
+              fill
+              sizes="(max-width: 768px) 100vw, 33vw"
+              className="object-cover transition-transform duration-700 group-hover:scale-105"
             />
             <div className="absolute inset-0 bg-black/20 group-hover:bg-black/30 transition-colors"></div>
             <div className="absolute bottom-8 left-8 text-white">
@@ -90,10 +104,12 @@ export default async function HomePage() {
 
           {/* Collection 3 */}
           <Link href="/products?category=Fresh" className="group relative h-96 overflow-hidden rounded-xl cursor-pointer">
-            <img 
-              src="https://images.unsplash.com/photo-1612293905607-b003de9e54fb?q=80&w=987&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" 
-              alt="Fresh Collection" 
-              className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+            <Image
+              src="https://images.unsplash.com/photo-1612293905607-b003de9e54fb?q=80&w=987&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+              alt="Fresh Collection"
+              fill
+              sizes="(max-width: 768px) 100vw, 33vw"
+              className="object-cover transition-transform duration-700 group-hover:scale-105"
             />
             <div className="absolute inset-0 bg-black/20 group-hover:bg-black/30 transition-colors"></div>
             <div className="absolute bottom-8 left-8 text-white">
@@ -169,7 +185,13 @@ export default async function HomePage() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <div className="card p-6">
               <div className="flex items-center gap-3 mb-4">
-                <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=300&auto=format&fit=crop" alt="Ananya" className="w-10 h-10 rounded-full object-cover" />
+                <Image
+                  src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=300&auto=format&fit=crop"
+                  alt="Ananya"
+                  width={40}
+                  height={40}
+                  className="rounded-full object-cover"
+                />
                 <div>
                   <p className="font-semibold">Ananya S.</p>
                   <p className="text-stone-500 text-sm">Mumbai</p>
@@ -186,7 +208,13 @@ export default async function HomePage() {
             </div>
             <div className="card p-6">
               <div className="flex items-center gap-3 mb-4">
-                <img src="https://images.unsplash.com/photo-1672843192615-5913ef88bf17?q=80&w=987&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Rohan" className="w-10 h-10 rounded-full object-cover" />
+                <Image
+                  src="https://images.unsplash.com/photo-1672843192615-5913ef88bf17?q=80&w=987&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                  alt="Rohan"
+                  width={40}
+                  height={40}
+                  className="rounded-full object-cover"
+                />
                 <div>
                   <p className="font-semibold">Rohan M.</p>
                   <p className="text-stone-500 text-sm">Bengaluru</p>
@@ -203,7 +231,13 @@ export default async function HomePage() {
             </div>
             <div className="card p-6">
               <div className="flex items-center gap-3 mb-4">
-                <img src="https://images.unsplash.com/photo-1547425260-76bcadfb4f2c?q=80&w=300&auto=format&fit=crop" alt="Priya" className="w-10 h-10 rounded-full object-cover" />
+                <Image
+                  src="https://images.unsplash.com/photo-1547425260-76bcadfb4f2c?q=80&w=300&auto=format&fit=crop"
+                  alt="Priya"
+                  width={40}
+                  height={40}
+                  className="rounded-full object-cover"
+                />
                 <div>
                   <p className="font-semibold">Pratik K.</p>
                   <p className="text-stone-500 text-sm">New Delhi</p>
@@ -225,11 +259,13 @@ export default async function HomePage() {
       {/* Story / About Section */}
       <section className="relative py-24 bg-stone-900 text-white overflow-hidden">
         <div className="absolute inset-0 opacity-40">
-           <img 
-             src="https://images.unsplash.com/photo-1546551812-9a44595c5fea?q=80&w=1035&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" 
-             alt="Candle making" 
-             className="w-full h-full object-cover" 
-           />
+          <Image
+            src="https://images.unsplash.com/photo-1546551812-9a44595c5fea?q=80&w=1035&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+            alt="Candle making"
+            fill
+            className="object-cover"
+            priority
+          />
         </div>
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
            <span className="inline-block py-1 px-3 rounded-full bg-white/10 backdrop-blur border border-white/20 text-xs font-bold tracking-widest uppercase mb-8">Our Philosophy</span>

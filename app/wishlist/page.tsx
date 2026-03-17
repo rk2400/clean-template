@@ -1,12 +1,13 @@
- 'use client';
- 
- import { useEffect, useState } from 'react';
- import Link from 'next/link';
- import { getWishlist, removeFromWishlist } from '@/lib/api-client';
- import toast from 'react-hot-toast';
- import { useCart } from '@/lib/contexts/CartContext';
- import { useUser } from '@/lib/contexts/UserContext';
- import { useRouter } from 'next/navigation';
+'use client';
+
+import Image from 'next/image';
+import { useEffect, useState } from 'react';
+import Link from 'next/link';
+import { getWishlist, removeFromWishlist } from '@/lib/api-client';
+import toast from 'react-hot-toast';
+import { useCart } from '@/lib/contexts/CartContext';
+import { useUser } from '@/lib/contexts/UserContext';
+import { useRouter } from 'next/navigation';
  
  export default function WishlistPage() {
    const [items, setItems] = useState<any[]>([]);
@@ -22,7 +23,7 @@
       return;
     }
     loadWishlist();
-  }, [user]);
+  }, [user, router]);
  
    async function loadWishlist() {
      try {
@@ -102,8 +103,18 @@
                const p = w.productId || {};
                return (
                  <div key={w._id} className="card overflow-hidden">
-                   <Link href={`/products/${p._id}`}>
-                     <img src={p.images?.[0] || ''} alt={p.name} className="w-full h-56 object-cover" />
+                   <Link href={`/products/${p._id}`} className="relative block h-56 w-full">
+                     {p.images?.[0] ? (
+                       <Image
+                         src={p.images[0]}
+                         alt={p.name}
+                         fill
+                         sizes="(max-width: 768px) 100vw, 33vw"
+                         className="object-cover"
+                       />
+                     ) : (
+                       <div className="w-full h-full flex items-center justify-center text-stone-400">No Image</div>
+                     )}
                    </Link>
                    <div className="p-4">
                      <Link href={`/products/${p._id}`} className="font-serif text-lg">{p.name}</Link>

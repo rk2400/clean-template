@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import AdminHeader from '@/components/AdminHeader';
@@ -104,18 +104,7 @@ export default function AdminEmailsPage() {
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
 
-  useEffect(() => {
-    loadTemplates();
-  }, []);
-
-  useEffect(() => {
-    const template = templates[selectedType] || DEFAULT_TEMPLATES[selectedType];
-    if (template) {
-      setFormData({ subject: template.subject, body: template.body });
-    }
-  }, [selectedType, templates]);
-
-  async function loadTemplates() {
+  const loadTemplates = useCallback(async () => {
     try {
       const data = await getEmailTemplates();
       const templateMap: Record<string, any> = {};
@@ -132,7 +121,18 @@ export default function AdminEmailsPage() {
     } finally {
       setLoading(false);
     }
-  }
+  }, [router]);
+
+  useEffect(() => {
+    loadTemplates();
+  }, [loadTemplates]);
+
+  useEffect(() => {
+    const template = templates[selectedType] || DEFAULT_TEMPLATES[selectedType];
+    if (template) {
+      setFormData({ subject: template.subject, body: template.body });
+    }
+  }, [selectedType, templates]);
 
   async function handleSave() {
     setSaving(true);

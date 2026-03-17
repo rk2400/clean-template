@@ -59,6 +59,7 @@ export const adminConfig = {
 export const emailConfig = {
   host: getEnvVar('EMAIL_HOST', ''),
   port: getEnvVarAsNumber('EMAIL_PORT', 587),
+  secure: getEnvVarAsBoolean('EMAIL_SECURE', false),
   user: getEnvVar('EMAIL_USER', ''),
   pass: getEnvVar('EMAIL_PASS', ''),
   from: getEnvVar('EMAIL_FROM', 'noreply@littleflame.com'),

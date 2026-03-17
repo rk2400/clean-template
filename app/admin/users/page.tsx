@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import AdminHeader from '@/components/AdminHeader';
@@ -12,11 +12,7 @@ export default function AdminUsersPage() {
   const [users, setUsers] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    loadUsers();
-  }, []);
-
-  async function loadUsers() {
+  const loadUsers = useCallback(async () => {
     try {
       const data = await getAdminUsers();
       setUsers(data);
@@ -29,7 +25,11 @@ export default function AdminUsersPage() {
     } finally {
       setLoading(false);
     }
-  }
+  }, [router]);
+
+  useEffect(() => {
+    loadUsers();
+  }, [loadUsers]);
 
   if (loading) {
     return (

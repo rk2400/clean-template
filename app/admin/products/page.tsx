@@ -1,6 +1,7 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import Image from 'next/image';
+import { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import AdminHeader from '@/components/AdminHeader';
@@ -12,11 +13,7 @@ export default function AdminProductsPage() {
   const [products, setProducts] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    loadProducts();
-  }, []);
-
-  async function loadProducts() {
+  const loadProducts = useCallback(async () => {
     try {
       const data = await getAdminProducts();
       setProducts(data);
@@ -29,19 +26,24 @@ export default function AdminProductsPage() {
     } finally {
       setLoading(false);
     }
-  }
+  }, [router]);
+
+  useEffect(() => {
+    loadProducts();
+  }, [loadProducts]);
 
   async function handleDelete(id: string) {
     if (!confirm('Are you sure you want to delete this product?')) return;
-    
+
     try {
       await deleteProduct(id);
       toast.success('Product deleted');
-      loadProducts();
+      await loadProducts();
     } catch (error: any) {
       toast.error(error.message);
     }
   }
+
 
   if (loading) {
     return (
@@ -75,11 +77,14 @@ export default function AdminProductsPage() {
             {products.map((product: any) => (
               <div key={product._id} className="card p-6">
                 {product.images && product.images[0] && (
-                  <img
-                    src={product.images[0]}
-                    alt={product.name}
-                    className="w-full h-48 object-cover rounded-lg mb-4"
-                  />
+                  <div className="relative w-full h-48 rounded-lg overflow-hidden mb-4">
+                    <Image
+                      src={product.images[0]}
+                      alt={product.name}
+                      fill
+                      className="object-cover"
+                    />
+                  </div>
                 )}
                 <h3 className="text-xl font-semibold mb-2">{product.name}</h3>
                 <p className="text-gray-600 mb-2 line-clamp-2">{product.description}</p>

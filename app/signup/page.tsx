@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import Image from 'next/image';
 import Link from 'next/link';
 import AuthTabs from '@/components/AuthTabs';
 import { createAccount, login } from '@/lib/api-client';
@@ -68,10 +69,12 @@ export default function SignupPage() {
     <div className="min-h-screen bg-stone-50 flex">
       {/* Left Side - Image */}
       <div className="hidden lg:block lg:w-1/2 relative overflow-hidden">
-        <img 
-          src="https://images.unsplash.com/photo-1602523961358-f9f03dd557db?q=80&w=2000&auto=format&fit=crop" 
-          alt="Signup Background" 
-          className="absolute inset-0 w-full h-full object-cover"
+        <Image
+          src="https://images.unsplash.com/photo-1602523961358-f9f03dd557db?q=80&w=2000&auto=format&fit=crop"
+          alt="Signup Background"
+          fill
+          className="object-cover"
+          priority
         />
         <div className="absolute inset-0 bg-stone-900/40 backdrop-blur-[2px] flex flex-col justify-between p-12 text-white">
           <Link href="/" className="text-2xl font-serif tracking-wide">LittleFlame</Link>

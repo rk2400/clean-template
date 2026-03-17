@@ -6,6 +6,7 @@ import { useCart } from '@/lib/contexts/CartContext';
 import { useRouter, usePathname } from 'next/navigation';
 import { useState, useEffect } from 'react';
 import { getWishlist } from '@/lib/api-client';
+import { siteConfig } from '@/config/site-config';
 
 export default function Header() {
   const { user, loading, logout } = useUser();
@@ -14,23 +15,11 @@ export default function Header() {
   const pathname = usePathname();
   const [mounted, setMounted] = useState(false);
   const [wishlistCount, setWishlistCount] = useState(0);
-  
-  async function refreshWishlistCount() {
-    if (!mounted || !user) {
-      setWishlistCount(0);
-      return;
-    }
-    try {
-      const items = await getWishlist();
-      setWishlistCount(Array.isArray(items) ? items.length : 0);
-    } catch {
-    }
-  }
-  
+
   useEffect(() => {
     setMounted(true);
   }, []);
-  
+
   // Only show cart count after component has mounted to avoid hydration mismatch
   const cartCount = mounted ? getItemCount() : 0;
   const [open, setOpen] = useState(false);
@@ -44,13 +33,33 @@ export default function Header() {
   }, [pathname]);
 
   useEffect(() => {
-    refreshWishlistCount();
-  }, [user, mounted]);
-  
-  useEffect(() => {
-    function onWishlistUpdated() {
-      refreshWishlistCount();
+    async function loadWishlistCount() {
+      if (!mounted || !user) {
+        setWishlistCount(0);
+        return;
+      }
+      try {
+        const items = await getWishlist();
+        setWishlistCount(Array.isArray(items) ? items.length : 0);
+      } catch {
+        // ignore
+      }
     }
+
+    loadWishlistCount();
+  }, [user, mounted]);
+
+  useEffect(() => {
+    async function onWishlistUpdated() {
+      if (!mounted || !user) return;
+      try {
+        const items = await getWishlist();
+        setWishlistCount(Array.isArray(items) ? items.length : 0);
+      } catch {
+        // ignore
+      }
+    }
+
     if (typeof window !== 'undefined') {
       window.addEventListener('wishlist:updated', onWishlistUpdated);
     }
@@ -96,7 +105,7 @@ export default function Header() {
               </button>
 
               <Link href="/" className="text-3xl font-serif font-bold text-stone-900 tracking-tight hover:opacity-80 transition-opacity">
-                LittleFlame
+                {siteConfig.name}
               </Link>
 
               <nav className={`hidden md:flex items-center gap-8 ${open ? 'block' : ''}`}>

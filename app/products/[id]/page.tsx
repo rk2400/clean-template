@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import Image from 'next/image';
 import { useParams, useRouter } from 'next/navigation';
 import { getProduct, getOrders, getProductReviews, submitReview, getWishlist } from '@/lib/api-client';
 import { useCart } from '@/lib/contexts/CartContext';
@@ -227,10 +228,12 @@ export default function ProductDetailPage() {
           <div className="space-y-6">
             <div className="aspect-square bg-white rounded-2xl overflow-hidden shadow-sm border border-stone-100 relative group">
               {product.images && product.images[activeImageIndex] ? (
-                <img
+                <Image
                   src={product.images[activeImageIndex]}
                   alt={product.name}
-                  className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700"
+                  fill
+                  sizes="(max-width: 768px) 100vw, 50vw"
+                  className="object-cover object-center group-hover:scale-105 transition-transform duration-700"
                 />
               ) : (
                 <div className="w-full h-full flex items-center justify-center bg-stone-100 text-stone-400">
@@ -281,7 +284,12 @@ export default function ProductDetailPage() {
                     onClick={() => setActiveImageIndex(idx)}
                     title="View image"
                   >
-                    <img src={img} alt="" className="w-full h-full object-cover" />
+                    <Image
+                      src={img}
+                      alt=""
+                      fill
+                      className="object-cover"
+                    />
                   </button>
                 ))}
               </div>

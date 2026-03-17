@@ -1,5 +1,6 @@
 'use client';
 
+import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { useCart } from '@/lib/contexts/CartContext';
@@ -7,6 +8,29 @@ import { useUser } from '@/lib/contexts/UserContext';
 import { checkout, getCurrentUser, saveAddress, AddressPayload, validateCoupon } from '@/lib/api-client';
 import toast from 'react-hot-toast';
 import { useState, useEffect, useMemo } from 'react';
+
+const indianStates = [
+  'Andhra Pradesh','Arunachal Pradesh','Assam','Bihar','Chhattisgarh','Goa','Gujarat','Haryana','Himachal Pradesh','Jharkhand','Karnataka','Kerala','Madhya Pradesh','Maharashtra','Manipur','Meghalaya','Mizoram','Nagaland','Odisha','Punjab','Rajasthan','Sikkim','Tamil Nadu','Telangana','Tripura','Uttar Pradesh','Uttarakhand','West Bengal','Andaman and Nicobar Islands','Chandigarh','Dadra and Nagar Haveli and Daman and Diu','Delhi','Jammu and Kashmir','Ladakh','Lakshadweep','Puducherry'
+];
+
+const allCities = ['New Delhi','Mumbai','Bengaluru','Chennai','Hyderabad','Kolkata','Pune','Ahmedabad','Jaipur','Lucknow','Bhopal','Indore','Surat','Vadodara','Nagpur','Patna','Ranchi','Guwahati','Kochi','Thiruvananthapuram'];
+
+const citiesByState: Record<string, string[]> = {
+  'Delhi': ['New Delhi','Dwarka','Rohini','Saket','Lajpat Nagar','Karol Bagh'],
+  'Maharashtra': ['Mumbai','Pune','Nagpur','Nashik','Thane','Aurangabad'],
+  'Karnataka': ['Bengaluru','Mysuru','Mangaluru','Hubballi','Belagavi'],
+  'Tamil Nadu': ['Chennai','Coimbatore','Madurai','Salem','Tiruchirappalli'],
+  'Telangana': ['Hyderabad','Warangal','Nizamabad','Karimnagar'],
+  'West Bengal': ['Kolkata','Siliguri','Durgapur','Asansol','Howrah'],
+  'Gujarat': ['Ahmedabad','Surat','Vadodara','Rajkot'],
+  'Uttar Pradesh': ['Lucknow','Kanpur','Noida','Ghaziabad','Varanasi','Agra'],
+  'Madhya Pradesh': ['Bhopal','Indore','Jabalpur','Gwalior','Ujjain'],
+  'Rajasthan': ['Jaipur','Udaipur','Jodhpur','Kota','Ajmer'],
+  'Kerala': ['Kochi','Thiruvananthapuram','Kozhikode','Thrissur'],
+  'Bihar': ['Patna','Gaya','Muzaffarpur','Bhagalpur'],
+  'Jharkhand': ['Ranchi','Jamshedpur','Dhanbad','Hazaribagh'],
+  'Assam': ['Guwahati','Silchar','Dibrugarh','Jorhat']
+};
 
 export default function CartPage() {
   const { items, updateQuantity, removeFromCart, getTotal, clearCart } = useCart();
@@ -22,26 +46,7 @@ export default function CartPage() {
   const [discountAmount, setDiscountAmount] = useState(0);
   const [validatingCoupon, setValidatingCoupon] = useState(false);
   const [showCoupon, setShowCoupon] = useState(false);
-  const indianStates = [
-    'Andhra Pradesh','Arunachal Pradesh','Assam','Bihar','Chhattisgarh','Goa','Gujarat','Haryana','Himachal Pradesh','Jharkhand','Karnataka','Kerala','Madhya Pradesh','Maharashtra','Manipur','Meghalaya','Mizoram','Nagaland','Odisha','Punjab','Rajasthan','Sikkim','Tamil Nadu','Telangana','Tripura','Uttar Pradesh','Uttarakhand','West Bengal','Andaman and Nicobar Islands','Chandigarh','Dadra and Nagar Haveli and Daman and Diu','Delhi','Jammu and Kashmir','Ladakh','Lakshadweep','Puducherry'
-  ];
-  const allCities = ['New Delhi','Mumbai','Bengaluru','Chennai','Hyderabad','Kolkata','Pune','Ahmedabad','Jaipur','Lucknow','Bhopal','Indore','Surat','Vadodara','Nagpur','Patna','Ranchi','Guwahati','Kochi','Thiruvananthapuram'];
-  const citiesByState: Record<string, string[]> = {
-    'Delhi': ['New Delhi','Dwarka','Rohini','Saket','Lajpat Nagar','Karol Bagh'],
-    'Maharashtra': ['Mumbai','Pune','Nagpur','Nashik','Thane','Aurangabad'],
-    'Karnataka': ['Bengaluru','Mysuru','Mangaluru','Hubballi','Belagavi'],
-    'Tamil Nadu': ['Chennai','Coimbatore','Madurai','Salem','Tiruchirappalli'],
-    'Telangana': ['Hyderabad','Warangal','Nizamabad','Karimnagar'],
-    'West Bengal': ['Kolkata','Siliguri','Durgapur','Asansol','Howrah'],
-    'Gujarat': ['Ahmedabad','Surat','Vadodara','Rajkot'],
-    'Uttar Pradesh': ['Lucknow','Kanpur','Noida','Ghaziabad','Varanasi','Agra'],
-    'Madhya Pradesh': ['Bhopal','Indore','Jabalpur','Gwalior','Ujjain'],
-    'Rajasthan': ['Jaipur','Udaipur','Jodhpur','Kota','Ajmer'],
-    'Kerala': ['Kochi','Thiruvananthapuram','Kozhikode','Thrissur'],
-    'Bihar': ['Patna','Gaya','Muzaffarpur','Bhagalpur'],
-    'Jharkhand': ['Ranchi','Jamshedpur','Dhanbad','Hazaribagh'],
-    'Assam': ['Guwahati','Silchar','Dibrugarh','Jorhat']
-  };
+
   const cityOptions = useMemo(() => {
     const key = (address.state || '').toString();
     return citiesByState[key] || allCities;
@@ -198,9 +203,15 @@ export default function CartPage() {
           <div className="lg:col-span-2 space-y-8">
             {items.map((item) => (
               <div key={item.productId} className="flex gap-6 p-6 bg-white rounded-xl shadow-sm border border-stone-100">
-                <div className="w-24 h-24 bg-stone-100 rounded-lg overflow-hidden flex-shrink-0">
+                <div className="w-24 h-24 bg-stone-100 rounded-lg overflow-hidden flex-shrink-0 relative">
                   {item.image ? (
-                    <img src={item.image} alt={item.name} className="w-full h-full object-cover" />
+                    <Image
+                      src={item.image}
+                      alt={item.name}
+                      fill
+                      sizes="96px"
+                      className="object-cover"
+                    />
                   ) : (
                     <div className="w-full h-full flex items-center justify-center text-stone-400">No Img</div>
                   )}

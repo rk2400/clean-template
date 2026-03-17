@@ -20,25 +20,27 @@ export default function ProfilePage() {
       return;
     }
 
-    if (user) {
-      loadOrders();
+    if (!user) {
+      return;
     }
-  }, [user, userLoading, router]);
 
-  async function loadOrders() {
-    try {
-      const data = await getOrders();
-      setOrders(data);
-    } catch (error: any) {
-      if (error.message.includes('Unauthorized')) {
-        router.push('/login');
-      } else {
-        toast.error(error.message);
+    async function loadOrders() {
+      try {
+        const data = await getOrders();
+        setOrders(data);
+      } catch (error: any) {
+        if (error.message.includes('Unauthorized')) {
+          router.push('/login');
+        } else {
+          toast.error(error.message);
+        }
+      } finally {
+        setLoading(false);
       }
-    } finally {
-      setLoading(false);
     }
-  }
+
+    loadOrders();
+  }, [user, userLoading, router]);
 
   if (userLoading || loading) {
     return (

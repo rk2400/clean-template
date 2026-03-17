@@ -29,6 +29,17 @@ A production-ready ecommerce web application built for a small Indian startup se
 - **Email**: Nodemailer (SMTP) with mock mode support
 - **Payments**: Mock UPI flow (ready for Razorpay/Cashfree integration)
 
+## 🧩 Template Customization
+
+This repository is designed as a reusable ecommerce template. The key customization points are:
+
+- **Branding & SEO**: Update `config/site-config.ts` for site name, description, logo paths, colors, and contact details.
+- **Theme & Styling**: Tailwind is configured via `tailwind.config.ts`. Update colors and typography there.
+- **Content & Pages**: Edit the pages under `app/` (e.g., `app/page.tsx`, `app/products/page.tsx`) to match your business needs.
+- **API & Business Logic**: App logic lives in `app/api/*` routes and `lib/*` helper modules. Keep route handlers thin by moving shared logic into `lib/services`.
+- **Email Templates**: Stored in MongoDB (`EmailTemplate` model). Seed templates using `npx ts-node scripts/init-email-templates.ts`.
+- **SEO**: A sitemap is available at `/sitemap.xml` and robots rules at `/robots.txt`.
+
 ## 📦 Installation
 
 1. **Clone the repository**

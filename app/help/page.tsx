@@ -1,5 +1,6 @@
 "use client";
 
+import Image from 'next/image';
 import { useState } from 'react';
 // Header and Footer are provided by `app/layout.tsx`
 import Link from 'next/link';
@@ -42,11 +43,14 @@ export default function HelpPage() {
             <h1 className="text-4xl font-bold">Help & Support</h1>
             <p className="text-gray-600 mt-2">Quick answers and support resources to help you shop with confidence.</p>
           </div>
-          <img
-            src="https://images.unsplash.com/photo-1503602642458-232111445657?q=80&w=800&auto=format&fit=crop&ixlib=rb-4.0.3&s=8a7d3c1d5b6d5f7f8a3e3b0b3c0f8a5f"
-            alt="support"
-            className="w-40 h-32 object-cover rounded-md"
-          />
+          <div className="relative w-40 h-32 rounded-md overflow-hidden">
+            <Image
+              src="https://images.unsplash.com/photo-1503602642458-232111445657?q=80&w=800&auto=format&fit=crop&ixlib=rb-4.0.3&s=8a7d3c1d5b6d5f7f8a3e3b0b3c0f8a5f"
+              alt="support"
+              fill
+              className="object-cover"
+            />
+          </div>
         </div>
 
         <div className="card mb-8">

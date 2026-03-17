@@ -1,5 +1,6 @@
 'use client';
 
+import Image from 'next/image';
 import { useState, useEffect } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
@@ -174,15 +175,16 @@ export default function OrderDetailPage() {
             <div className="space-y-6">
               {order.products.map((item: any, index: number) => (
                 <div key={index} className="flex gap-6 items-center">
-                  <div className="w-20 h-20 bg-stone-100 rounded-lg overflow-hidden flex-shrink-0 border border-stone-100">
+                  <div className="w-20 h-20 bg-stone-100 rounded-lg overflow-hidden flex-shrink-0 border border-stone-100 relative">
                     {item.image ? (
-                      <img
+                      <Image
                         src={item.image}
                         alt={item.name}
-                        className="w-full h-full object-cover"
+                        fill
+                        className="object-cover"
                       />
                     ) : (
-                      <div className="w-full h-full flex items-center justify-center text-stone-400 text-xs">No Img</div>
+                      <div className="w-full h-full flex items-center justify-center text-stone-400 text-xs">No Image</div>
                     )}
                   </div>
                   <div className="flex-1">

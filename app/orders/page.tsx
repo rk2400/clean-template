@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, Suspense } from 'react';
+import { useState, useEffect, useCallback, useRef, Suspense } from 'react';
 import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
 // Header and Footer are provided by `app/layout.tsx`
@@ -9,9 +9,11 @@ import toast from 'react-hot-toast';
 
 export default function OrdersPage() {
   const router = useRouter();
+  const routerRef = useRef(router);
   const [orders, setOrders] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [placedBanner, setPlacedBanner] = useState(false);
+  const handlePlaced = useCallback(() => setPlacedBanner(true), []);
 
   function statusLabel(s: string) {
     if (s === 'DELIVERED') return 'Delivered';
@@ -28,7 +30,7 @@ export default function OrdersPage() {
         setOrders(data);
       } catch (error: any) {
         if (error.message.includes('Unauthorized')) {
-          router.push('/login');
+          routerRef.current.push('/login');
         } else {
           toast.error(error.message);
         }
@@ -37,7 +39,7 @@ export default function OrdersPage() {
       }
     }
     loadOrders();
-  }, [router]);
+  }, []);
 
   function PlacedBannerHandler({ onPlaced }: { onPlaced: () => void }) {
     const searchParams = useSearchParams();
@@ -45,9 +47,9 @@ export default function OrdersPage() {
       if (searchParams.get('placed') === '1') {
         onPlaced();
         toast.success('Order placed successfully!');
-        router.replace('/orders');
+        routerRef.current.replace('/orders');
       }
-    }, [searchParams]);
+    }, [searchParams, onPlaced]);
     return null;
   }
 
@@ -64,7 +66,7 @@ export default function OrdersPage() {
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-20">
         <h1 className="text-4xl font-serif text-stone-900 mb-8">My Orders</h1>
         <Suspense>
-          <PlacedBannerHandler onPlaced={() => setPlacedBanner(true)} />
+          <PlacedBannerHandler onPlaced={handlePlaced} />
         </Suspense>
         {placedBanner && (
           <div className="mb-6 p-4 rounded-lg border border-green-100 bg-green-50 text-green-700 text-sm">

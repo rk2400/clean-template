@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import AdminHeader from '@/components/AdminHeader';
@@ -19,11 +19,7 @@ export default function AdminOrdersPage() {
   });
   const [sendingTracking, setSendingTracking] = useState(false);
 
-  useEffect(() => {
-    loadOrders();
-  }, []);
-
-  async function loadOrders() {
+  const loadOrders = useCallback(async () => {
     try {
       const data = await getAdminOrders();
       setOrders(data);
@@ -36,7 +32,11 @@ export default function AdminOrdersPage() {
     } finally {
       setLoading(false);
     }
-  }
+  }, [router]);
+
+  useEffect(() => {
+    loadOrders();
+  }, [loadOrders]);
 
   function getPaymentStatusLabel(status: string) {
     switch (status) {

@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import AdminHeader from '@/components/AdminHeader';
@@ -12,11 +12,7 @@ export default function AdminCouponsPage() {
   const [coupons, setCoupons] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    load();
-  }, []);
-
-  async function load() {
+  const loadCoupons = useCallback(async () => {
     try {
       const data = await getAdminCoupons();
       setCoupons(data);
@@ -29,14 +25,18 @@ export default function AdminCouponsPage() {
     } finally {
       setLoading(false);
     }
-  }
+  }, [router]);
+
+  useEffect(() => {
+    loadCoupons();
+  }, [loadCoupons]);
 
   async function handleDelete(id: string) {
     if (!confirm('Delete this coupon?')) return;
     try {
       await deleteCoupon(id);
       toast.success('Coupon deleted');
-      load();
+      loadCoupons();
     } catch (err: any) {
       toast.error(err.message);
     }

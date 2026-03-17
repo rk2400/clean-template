@@ -1,5 +1,6 @@
 'use client';
 
+import Image from 'next/image';
 import { useEffect, useState, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
@@ -201,7 +202,14 @@ function PaymentVerificationContent() {
           <div className="card p-8">
             <h2 className="text-xl font-bold mb-4">Step 1: Scan & Pay</h2>
             <div className="bg-gray-100 rounded-lg p-4 mb-4 flex justify-center">
-              <img src={qrCodeURL} alt="UPI QR Code" className="w-64 h-64" />
+              <div className="relative w-64 h-64">
+                <Image
+                  src={qrCodeURL}
+                  alt="UPI QR Code"
+                  fill
+                  className="object-cover"
+                />
+              </div>
             </div>
             <div className="space-y-3 text-sm">
               <div>

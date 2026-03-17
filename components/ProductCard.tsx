@@ -25,10 +25,12 @@ export default function ProductCard({ product }: ProductCardProps) {
     >
       <div className="relative h-72 w-full overflow-hidden bg-stone-100">
         {product.images && product.images[0] ? (
-          <img
+          <Image
             src={product.images[0]}
             alt={product.name}
-            className={`w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500 ${
+            fill
+            sizes="(max-width: 768px) 100vw, 33vw"
+            className={`object-cover object-center group-hover:scale-105 transition-transform duration-500 ${
               isOutOfStock ? 'grayscale' : ''
             }`}
           />

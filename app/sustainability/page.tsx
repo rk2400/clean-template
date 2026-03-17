@@ -1,12 +1,16 @@
+import Image from 'next/image';
+
 export default function SustainabilityPage() {
   return (
     <div className="bg-stone-50 min-h-screen">
       <section className="relative h-[40vh] flex items-center justify-center overflow-hidden bg-stone-900">
         <div className="absolute inset-0">
-          <img
+          <Image
             src="https://images.unsplash.com/photo-1513521777634-9efa3f6022ac?q=80&w=1600&auto=format&fit=crop"
             alt="Sustainable materials"
-            className="w-full h-full object-cover opacity-50"
+            fill
+            className="object-cover opacity-50"
+            priority
           />
         </div>
         <div className="relative z-10 text-center px-4 max-w-4xl mx-auto">

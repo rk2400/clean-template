@@ -1,6 +1,7 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import Image from 'next/image';
+import { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import AdminHeader from '@/components/AdminHeader';
@@ -25,11 +26,7 @@ export default function AdminPaymentsPage() {
   const [adminNote, setAdminNote] = useState('');
   const [action, setAction] = useState<'approve' | 'reject'>('approve');
 
-  useEffect(() => {
-    loadPayments();
-  }, []);
-
-  async function loadPayments() {
+  const loadPayments = useCallback(async () => {
     try {
       const res = await fetch('/api/admin/payments', {
         credentials: 'include',
@@ -51,7 +48,11 @@ export default function AdminPaymentsPage() {
     } finally {
       setLoading(false);
     }
-  }
+  }, [router]);
+
+  useEffect(() => {
+    loadPayments();
+  }, [loadPayments]);
 
   async function handleVerification() {
     if (!selectedPayment) return;
@@ -153,11 +154,14 @@ export default function AdminPaymentsPage() {
                 {payment.paymentScreenshot && (
                   <div className="mb-4">
                     <p className="text-gray-600 text-sm font-semibold mb-2">Payment Screenshot:</p>
-                    <img
-                      src={payment.paymentScreenshot}
-                      alt="Payment Screenshot"
-                      className="max-w-sm max-h-48 rounded border border-gray-200"
-                    />
+                    <div className="relative max-w-sm max-h-48 rounded border border-gray-200 overflow-hidden">
+                  <Image
+                    src={payment.paymentScreenshot}
+                    alt="Payment Screenshot"
+                    fill
+                    className="object-contain"
+                  />
+                </div>
                   </div>
                 )}
 

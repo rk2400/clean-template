@@ -1,6 +1,6 @@
  'use client';
  
- import { useEffect, useState } from 'react';
+ import { useEffect, useState, useCallback } from 'react';
  import { useRouter, useParams } from 'next/navigation';
  import Link from 'next/link';
  import AdminHeader from '@/components/AdminHeader';
@@ -31,46 +31,47 @@ import {
   });
   const [sendingTracking, setSendingTracking] = useState(false);
  
-   useEffect(() => {
-     if (!userId) return;
-     loadData();
-   }, [userId]);
- 
-   async function loadData() {
-     try {
-       const [ordersData, userData] = await Promise.all([
-         getAdminUserOrders(userId),
-         getAdminUser(userId),
-       ]);
-       setOrders(ordersData);
-       setUser(userData);
-     } catch (error: any) {
-       if (error.message.includes('Unauthorized') || error.message.includes('Admin')) {
-         router.push('/admin/login');
-       } else {
-         toast.error(error.message);
-       }
-     } finally {
-       setLoading(false);
-     }
-   }
- 
-   function getPaymentStatusLabel(status: string) {
-     switch (status) {
-       case 'PAID':
-         return 'Paid';
-       case 'PAYMENT_SUBMITTED':
-         return 'Payment Submitted';
-       case 'PAYMENT_PENDING':
-         return 'Payment Pending';
-       case 'PAYMENT_REJECTED':
-         return 'Payment Rejected';
-       default:
-         return status;
-     }
-   }
- 
-   function getPaymentStatusColor(status: string) {
+const loadData = useCallback(async () => {
+    if (!userId) return;
+
+    try {
+      const [ordersData, userData] = await Promise.all([
+        getAdminUserOrders(userId),
+        getAdminUser(userId),
+      ]);
+      setOrders(ordersData);
+      setUser(userData);
+    } catch (error: any) {
+      if (error.message.includes('Unauthorized') || error.message.includes('Admin')) {
+        router.push('/admin/login');
+      } else {
+        toast.error(error.message);
+      }
+    } finally {
+      setLoading(false);
+    }
+  }, [router, userId]);
+
+  useEffect(() => {
+    loadData();
+  }, [loadData]);
+
+  function getPaymentStatusLabel(status: string) {
+    switch (status) {
+      case 'PAID':
+        return 'Paid';
+      case 'PAYMENT_SUBMITTED':
+        return 'Payment Submitted';
+      case 'PAYMENT_PENDING':
+        return 'Payment Pending';
+      case 'PAYMENT_REJECTED':
+        return 'Payment Rejected';
+      default:
+        return status;
+    }
+  }
+
+  function getPaymentStatusColor(status: string) {
      switch (status) {
        case 'PAID':
          return 'bg-green-100 text-green-800 border-green-200';

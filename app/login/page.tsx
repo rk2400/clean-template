@@ -1,5 +1,6 @@
 'use client';
 
+import Image from 'next/image';
 import { useState, useEffect, Suspense } from 'react';
 import { useRouter } from 'next/navigation';
 import { useSearchParams } from 'next/navigation';
@@ -25,7 +26,7 @@ export default function LoginPage() {
       const qStep = searchParams.get('step');
       if (qEmail) setEmail(qEmail);
       if (qStep === 'otp') setStep('otp');
-    }, [searchParams]);
+    }, [searchParams, setEmail, setStep]);
     return null;
   }
 
@@ -81,12 +82,6 @@ export default function LoginPage() {
   }
   
   useEffect(() => {
-    if (step === 'otp' && resendCooldown === 0) {
-      // Do not auto-start here; started upon send
-    }
-  }, [step]);
-  
-  useEffect(() => {
     if (resendCooldown <= 0) return;
     const t = setInterval(() => {
       setResendCooldown((s) => (s > 0 ? s - 1 : 0));
@@ -98,10 +93,12 @@ export default function LoginPage() {
     <div className="min-h-screen bg-stone-50 flex">
       {/* Left Side - Image */}
       <div className="hidden lg:block lg:w-1/2 relative overflow-hidden">
-        <img 
-          src="https://images.unsplash.com/photo-1602523961358-f9f03dd557db?q=80&w=2000&auto=format&fit=crop" 
-          alt="Login Background" 
-          className="absolute inset-0 w-full h-full object-cover"
+        <Image
+          src="https://images.unsplash.com/photo-1602523961358-f9f03dd557db?q=80&w=2000&auto=format&fit=crop"
+          alt="Login Background"
+          fill
+          className="object-cover"
+          priority
         />
         <div className="absolute inset-0 bg-stone-900/40 backdrop-blur-[2px] flex flex-col justify-between p-12 text-white">
           <Link href="/" className="text-2xl font-serif tracking-wide">LittleFlame</Link>

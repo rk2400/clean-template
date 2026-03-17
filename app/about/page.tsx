@@ -1,3 +1,5 @@
+import Image from 'next/image';
+
 // Header and Footer are provided by `app/layout.tsx`
 
 export default function AboutPage() {
@@ -6,10 +8,12 @@ export default function AboutPage() {
       {/* Hero Section */}
       <section className="relative h-[60vh] flex items-center justify-center overflow-hidden bg-stone-900">
         <div className="absolute inset-0">
-          <img 
-            src="https://images.unsplash.com/photo-1602523961358-f9f03dd557db?q=80&w=2000&auto=format&fit=crop" 
-            alt="Candle making studio" 
-            className="w-full h-full object-cover opacity-50"
+          <Image
+            src="https://images.unsplash.com/photo-1602523961358-f9f03dd557db?q=80&w=2000&auto=format&fit=crop"
+            alt="Candle making studio"
+            fill
+            className="object-cover opacity-50"
+            priority
           />
         </div>
         <div className="relative z-10 text-center px-4 max-w-4xl mx-auto">
@@ -36,10 +40,11 @@ export default function AboutPage() {
             </div>
           </div>
           <div className="order-1 md:order-2 relative h-[500px] rounded-2xl overflow-hidden shadow-xl">
-            <img 
-              src="https://images.unsplash.com/photo-1603006905003-be475563bc59?q=80&w=800&auto=format&fit=crop" 
-              alt="Hand pouring candles" 
-              className="w-full h-full object-cover"
+            <Image
+              src="https://images.unsplash.com/photo-1603006905003-be475563bc59?q=80&w=800&auto=format&fit=crop"
+              alt="Hand pouring candles"
+              fill
+              className="object-cover"
             />
           </div>
         </div>
@@ -83,13 +88,28 @@ export default function AboutPage() {
         {/* Gallery Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 h-96 md:h-[600px]">
           <div className="h-full rounded-2xl overflow-hidden relative group">
-            <img src="https://github.com/rk2400/assets/blob/main/G1.png?raw=true" alt="Gallery 1" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
+            <Image
+              src="https://github.com/rk2400/assets/blob/main/G1.png?raw=true"
+              alt="Gallery 1"
+              fill
+              className="object-cover transition-transform duration-700 group-hover:scale-105"
+            />
           </div>
           <div className="h-full rounded-2xl overflow-hidden relative group">
-            <img src="https://images.unsplash.com/photo-1514436598301-27a65f40469f?q=80&w=1007&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Gallery 2" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
+            <Image
+              src="https://images.unsplash.com/photo-1514436598301-27a65f40469f?q=80&w=1007&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+              alt="Gallery 2"
+              fill
+              className="object-cover transition-transform duration-700 group-hover:scale-105"
+            />
           </div>
           <div className="h-full rounded-2xl overflow-hidden relative group">
-            <img src="https://github.com/rk2400/assets/blob/main/G2.jpeg?raw=true" alt="Gallery 3" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
+            <Image
+              src="https://github.com/rk2400/assets/blob/main/G2.jpeg?raw=true"
+              alt="Gallery 3"
+              fill
+              className="object-cover transition-transform duration-700 group-hover:scale-105"
+            />
           </div>
           
         </div>
