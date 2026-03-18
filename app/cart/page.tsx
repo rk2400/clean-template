@@ -8,6 +8,7 @@ import { useUser } from '@/lib/contexts/UserContext';
 import { checkout, getCurrentUser, saveAddress, AddressPayload, validateCoupon } from '@/lib/api-client';
 import toast from 'react-hot-toast';
 import { useState, useEffect, useMemo } from 'react';
+import { theme } from '@/config/theme';
 
 const indianStates = [
   'Andhra Pradesh','Arunachal Pradesh','Assam','Bihar','Chhattisgarh','Goa','Gujarat','Haryana','Himachal Pradesh','Jharkhand','Karnataka','Kerala','Madhya Pradesh','Maharashtra','Manipur','Meghalaya','Mizoram','Nagaland','Odisha','Punjab','Rajasthan','Sikkim','Tamil Nadu','Telangana','Tripura','Uttar Pradesh','Uttarakhand','West Bengal','Andaman and Nicobar Islands','Chandigarh','Dadra and Nagar Haveli and Daman and Diu','Delhi','Jammu and Kashmir','Ladakh','Lakshadweep','Puducherry'
@@ -183,10 +184,10 @@ export default function CartPage() {
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
             </svg>
           </div>
-          <h2 className="text-3xl font-serif text-stone-900 mb-4">Your bag is empty</h2>
-          <p className="text-stone-500 mb-8">Looks like you haven't added any candles to your collection yet.</p>
+          <h2 className="text-3xl font-serif text-stone-900 mb-4">{theme.cart.emptyTitle}</h2>
+          <p className="text-stone-500 mb-8">{theme.cart.emptySubtitle}</p>
           <Link href="/products" className="btn btn-primary inline-flex">
-            Start Shopping
+            {theme.cart.emptyCta}
           </Link>
         </div>
       </div>

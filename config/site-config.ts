@@ -5,29 +5,25 @@
  * and SEO defaults when reusing the template for a new project.
  */
 
+import { theme } from './theme';
+
 export const siteConfig = {
-  name: 'HulaLoop',
-  shortName: 'HulaLoop',
-  description: 'Handmade crochet pieces that bring warmth and whimsy to your home.',
+  name: theme.name,
+  shortName: theme.name,
+  description: theme.description,
   url: process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000',
 
   // Paths to logo assets (should exist in /public)
-  logo: {
-    main: '/Logos/logo.png',
-    icon: '/Logos/color_icon.png',
-  },
+  logo: theme.logo,
 
   // Theme colors are used by tailwind config and can be referenced in components.
-  theme: {
-    primary: '#f97316',
-    accent: '#2563eb',
-  },
+  theme: theme.colors,
 
   // Contact info used across the site and in email templates.
   contact: {
-    email: process.env.NEXT_PUBLIC_CONTACT_EMAIL || 'support@hulaloop.com',
-    phone: process.env.NEXT_PUBLIC_CONTACT_PHONE || '+1 (555) 123-4567',
-    address: process.env.NEXT_PUBLIC_CONTACT_ADDRESS || '123 Main St, Anytown, USA',
+    email: process.env.NEXT_PUBLIC_CONTACT_EMAIL || theme.contact?.email || 'support@cozycrochet.com',
+    phone: process.env.NEXT_PUBLIC_CONTACT_PHONE || theme.contact?.phone || '+1 (555) 123-4567',
+    address: process.env.NEXT_PUBLIC_CONTACT_ADDRESS || theme.contact?.studio || '123 Main St, Anytown, USA',
   },
 
   // Social links (optional)

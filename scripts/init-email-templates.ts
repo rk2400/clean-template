@@ -21,7 +21,7 @@ const defaultTemplates = [
       <h3>Order Summary:</h3>
       {{products}}
       <p><strong>Total Amount:</strong> ₹{{totalAmount}}</p>
-      <p>Thank you for your purchase! We'll keep you updated on your order status.</p>
+      <p>Thank you for your purchase! We'll keep you updated as your items are crafted and shipped.</p>
     `,
   },
   {
@@ -48,7 +48,7 @@ const defaultTemplates = [
       <h3>Order Summary:</h3>
       {{products}}
       <p><strong>Total Amount:</strong> ₹{{totalAmount}}</p>
-      <p>You'll receive your order soon!</p>
+      <p>You'll receive your order soon—thank you for supporting handmade.</p>
     `,
   },
   {
@@ -62,7 +62,7 @@ const defaultTemplates = [
       <h3>Order Summary:</h3>
       {{products}}
       <p><strong>Total Amount:</strong> ₹{{totalAmount}}</p>
-      <p>Thank you for shopping with HulaLoop! We hope you love your candles.</p>
+      <p>Thank you for shopping with HulaLoop! We hope you love your handmade pieces.</p>
     `,
   },
   {

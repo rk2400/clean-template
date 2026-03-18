@@ -9,6 +9,7 @@ import AuthTabs from '@/components/AuthTabs';
 import { login, verifyOTP } from '@/lib/api-client';
 import { useUser } from '@/lib/contexts/UserContext';
 import toast from 'react-hot-toast';
+import { siteConfig } from '@/config/site-config';
 
 export default function LoginPage() {
   const router = useRouter();
@@ -101,7 +102,7 @@ export default function LoginPage() {
           priority
         />
         <div className="absolute inset-0 bg-stone-900/40 backdrop-blur-[2px] flex flex-col justify-between p-12 text-white">
-          <Link href="/" className="text-2xl font-serif tracking-wide">HulaLoop</Link>
+          <Link href="/" className="text-2xl font-serif tracking-wide">{siteConfig.name}</Link>
           <div className="max-w-md">
             <h2 className="text-4xl font-serif mb-4 text-white/80 ">Welcome Back</h2>
             <p className="text-stone-200 text-lg">Sign in to access your order history, saved addresses, and exclusive member benefits.</p>

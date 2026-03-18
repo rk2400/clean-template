@@ -34,6 +34,23 @@ export function UserProvider({ children }: { children: ReactNode }) {
   const [loading, setLoading] = useState(true);
   const router = useRouter();
 
+  // Decode a JWT payload in-browser (no verification)
+  const decodeJwt = (token: string) => {
+    try {
+      const base64Url = token.split('.')[1];
+      const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+      const jsonPayload = decodeURIComponent(
+        atob(base64)
+          .split('')
+          .map((c) => '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2))
+          .join('')
+      );
+      return JSON.parse(jsonPayload);
+    } catch {
+      return null;
+    }
+  };
+
   // Check user session on mount and when needed
   const checkUser = async (showLoading = false) => {
     if (showLoading) {
@@ -43,7 +60,29 @@ export function UserProvider({ children }: { children: ReactNode }) {
       const userData = await getCurrentUser();
       setUser(userData);
     } catch (error) {
-      setUser(null);
+      // If the API call failed, fall back to checking the token cookie (admin logins)
+      const tokenCookie = document.cookie
+        .split(';')
+        .map((c) => c.trim())
+        .find((c) => c.startsWith('token='));
+
+      if (tokenCookie) {
+        const token = tokenCookie.split('=')[1];
+        const payload = decodeJwt(token);
+        if (payload?.type === 'admin') {
+          setUser({
+            id: payload.adminId || '',
+            name: '',
+            email: payload.email || '',
+            phone: '',
+            isAdmin: true,
+          });
+        } else {
+          setUser(null);
+        }
+      } else {
+        setUser(null);
+      }
     } finally {
       setLoading(false);
     }

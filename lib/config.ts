@@ -3,6 +3,13 @@
  * Validates environment variables and provides type-safe access
  */
 
+import dotenv from 'dotenv';
+import path from 'path';
+
+// Load environment variables from .env.local and .env (similar to Next.js behavior)
+dotenv.config({ path: path.resolve(process.cwd(), '.env.local') });
+dotenv.config({ path: path.resolve(process.cwd(), '.env') });
+
 function getEnvVar(key: string, defaultValue?: string): string {
   const value = process.env[key];
   

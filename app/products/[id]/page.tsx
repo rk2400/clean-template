@@ -555,11 +555,10 @@ export default function ProductDetailPage() {
       <section className="bg-white py-20 border-t border-stone-100">
         <div className="max-w-4xl mx-auto px-4 text-center">
           <span className="text-primary-600 font-bold tracking-widest uppercase text-xs mb-4 block">The Experience</span>
-          <h2 className="text-3xl font-serif text-stone-900 mb-6">Hand-Poured with Intention</h2>
+          <h2 className="text-3xl font-serif text-stone-900 mb-6">Crafted with Intention</h2>
           <p className="text-stone-600 leading-relaxed">
-            Every HulaLoop candle is crafted in small batches in our studio. We use only 100% natural soy wax, 
-            premium phthalate-free fragrance oils, and lead-free cotton wicks. The result is a clean burn 
-            that fills your space with sophisticated scent without overwhelming it.
+            Every piece is handcrafted in small batches in our studio. We work with soft, sustainable yarns and
+            thoughtful designs to deliver cozy, lasting items that feel like home.
           </p>
         </div>
       </section>

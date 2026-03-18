@@ -65,7 +65,7 @@ const DEFAULT_TEMPLATES: Record<string, { subject: string; body: string }> = {
       <h3>Order Summary:</h3>
       {{products}}
       <p><strong>Total Amount:</strong> ₹{{totalAmount}}</p>
-      <p>Thank you for shopping with HulaLoop! We hope you love your candles.</p>
+      <p>Thank you for shopping with HulaLoop! We hope you love your handmade pieces.</p>
     `,
   },
   ORDER_CANCELLED: {

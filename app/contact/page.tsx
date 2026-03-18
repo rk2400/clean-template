@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { useUser } from '@/lib/contexts/UserContext';
 import toast from 'react-hot-toast';
+import { siteConfig } from '@/config/site-config';
 
 export default function ContactPage() {
   const { user } = useUser();
@@ -54,10 +55,10 @@ export default function ContactPage() {
 
   async function copyEmail() {
     try {
-      await navigator.clipboard.writeText('HulaLoop.official@gmail.com');
+      await navigator.clipboard.writeText(siteConfig.contact.email);
       toast.success('Email copied to clipboard');
     } catch (e) {
-      toast('HulaLoop.official@gmail.com');
+      toast(siteConfig.contact.email);
     }
   }
 
@@ -87,7 +88,7 @@ export default function ContactPage() {
                 <ContactItem 
                   icon={<path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />}
                   label="Email"
-                  value="HulaLoop.official@gmail.com"
+                  value={siteConfig.contact.email}
                   action={
                     <button onClick={copyEmail} className="text-xs text-primary-600 font-medium uppercase tracking-wider hover:text-primary-700 ml-2">
                       Copy
@@ -97,12 +98,12 @@ export default function ContactPage() {
                 <ContactItem 
                   icon={<path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />}
                   label="Phone"
-                  value="+91 9876543210"
+                  value={siteConfig.contact.phone}
                 />
                 <ContactItem 
                   icon={<path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />}
                   label="Studio"
-                  value="Delhi, India"
+                  value={siteConfig.contact.address}
                 />
               </div>
             </div>
