@@ -1,6 +1,6 @@
 'use client';
 
-import { createContext, useContext, useEffect, useState, ReactNode } from 'react';
+import { createContext, useContext, useEffect, useState, useCallback, ReactNode } from 'react';
 import { useRouter } from 'next/navigation';
 import { getCurrentUser, logout as apiLogout } from '@/lib/api-client';
 import toast from 'react-hot-toast';
@@ -51,8 +51,7 @@ export function UserProvider({ children }: { children: ReactNode }) {
     }
   };
 
-  // Check user session on mount and when needed
-  const checkUser = async (showLoading = false) => {
+  const checkUser = useCallback(async (showLoading = false) => {
     if (showLoading) {
       setLoading(true);
     }
@@ -86,11 +85,11 @@ export function UserProvider({ children }: { children: ReactNode }) {
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
 
   useEffect(() => {
     checkUser();
-  }, []);
+  }, [checkUser]);
 
   const refreshUser = async () => {
     setLoading(true);

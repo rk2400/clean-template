@@ -1,7 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { contactSchema } from '@/lib/validations';
 import { emailService } from '@/lib/email';
-import { adminConfig, siteConfig } from '@/lib/config';
+import { adminConfig } from '@/lib/config';
+import { siteConfig } from '@/config/site-config';
 import { z } from 'zod';
 
 export async function POST(req: NextRequest) {
